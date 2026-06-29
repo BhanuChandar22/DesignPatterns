@@ -1,0 +1,90 @@
+28 June 2026
+
+//Bill Pugh Singleton thread-safe
+class DBConnection{
+    private DBConnection(){
+    }
+    private static class DBConnHelper{
+        private static final DBConnection instance = new DBConnection();
+    }
+    public static DBConnection getConnectionObj(){
+        return DBConnHelper.instance;
+    }
+}
+
+class Main extends Thread {
+    public void run(){
+        System.out.println(DBConnection.getConnectionObj()+" ::"+Thread.currentThread().getName());
+    }
+    public static void main(String[] args) {
+        // System.out.println(DBConnection.getConnectionObj());
+        // System.out.println(DBConnection.getConnectionObj());
+        for(int i=0;i<10;i++){
+            Thread t = new Thread(new Main());
+            t.start();
+        }
+
+    }
+}
+
+//SINGLETON WITH LAZY INSTIATION..
+// class DBConnection{
+//     private static DBConnection instance;
+//     private DBConnection(){
+//     }
+
+//     public synchronized static DBConnection getConnectionObj(){
+//         if(instance == null){
+//             instance = new DBConnection();
+//         }
+//         return instance;
+//     }
+// }
+//SINGLETON WITH THREAD SAFE
+// class DBConnection{
+//     private static DBConnection instance;
+//     private DBConnection(){
+//     }
+
+//     public static synchronized DBConnection getConnectionObj(){
+//         if(instance == null){
+//             try{
+//                 Thread.sleep(100);
+//             }catch(Exception e){}
+//             instance = new DBConnection();
+//         }
+//         return instance;
+//     }
+// }
+// //SINGLETON WITH DOUBLE CHECK LOCKING
+// class DBConnection{
+//     private static DBConnection instance;
+//     private DBConnection(){
+//     }
+//     public static DBConnection getConnectionObj(){
+//         if(instance == null){
+//         synchronized(DBConnection.class){
+//             if(instance == null){
+//                 instance = new DBConnection();
+//             }
+//             }
+//        }
+//         return instance;
+//     }
+// }
+// //SINGLETON WITH DOUBLE CHECK LOCKING REORDERING AND VOLATILE
+// class DBConnection{
+//     private static volatile DBConnection instance;
+//     private DBConnection(){
+//     }
+//     public static DBConnection getConnectionObj(){
+//         if(instance == null){
+//         synchronized(DBConnection.class){
+//             if(instance == null){
+//                 instance = new DBConnection();
+//             }
+//             }
+//        }
+//         return instance;
+//     }
+// }
