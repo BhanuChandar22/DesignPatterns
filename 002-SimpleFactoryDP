@@ -1,0 +1,37 @@
+interface DBConnection{
+    public void getConnection();
+}
+class MySqlConnection implements DBConnection{
+    public void getConnection(){
+        System.out.println("Connected to mysql");
+    }
+}
+class OracleConnection implements DBConnection{
+    public void getConnection(){
+        System.out.println("Connected to oracle");
+    }
+}
+class MongoDbConnection implements DBConnection{
+    public void getConnection(){
+        System.out.println("Connected to mongodb");
+    }
+}
+class DBFactory{
+    private DBConnection connection;
+    public static DBConnection createConnection(String connectionType){
+        if(connectionType.equals("mysql"))
+        {
+            return new MySqlConnection();
+        }else if(connectionType.equals("oracle"))  {
+            return new OracleConnection();
+        }else if(connectionType.equals("mongo")){
+            return new MongoDbConnection();
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        DBConnection con = DBFactory.createConnection("oracle");
+        con.getConnection();
+    }
+}
