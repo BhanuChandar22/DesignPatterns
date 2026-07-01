@@ -1,0 +1,50 @@
+29 June 2026	-   FACTORY METHOD
+-------------
+
+interface Payment{
+  public void pay();
+}
+
+class PhonePay implements Payment{
+  public void pay(){
+    System.out.println("Payment with PHONE PAY");
+  }
+}
+class GooglePay implements Payment{
+  public void pay(){
+    System.out.println("Payment with GOOGLE PAY");
+  }
+}
+class Paytm implements Payment{
+  public void pay(){
+    System.out.println("Payment with PAYTM PAY");
+  }
+}
+
+interface PaymentFactory{
+  Payment createPayment();
+}
+
+class PhonePayFactory implements PaymentFactory{
+  public Payment createPayment(){
+    return new PhonePay();
+  }
+}
+class PaytmFactory implements PaymentFactory{
+  public Payment createPayment(){
+    return new Paytm();
+  }
+}
+class GooglePayFactory implements PaymentFactory{
+  public Payment createPayment(){
+    return new GooglePay();
+  }
+}
+
+public class Main {
+    public static void main(String[] args) {
+      PaymentFactory factory = new PaytmFactory();
+      Payment payment = factory.createPayment(); 
+      payment.pay();
+    }
+}
